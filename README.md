@@ -29,6 +29,8 @@ Set to an Object containing keys with the associated field name and the initial 
 
 ```html
 <script>
+  import { Svormik } from 'svormik';
+
   const initialValues = {
     username: 'foo',
     password: 'bar'
@@ -53,6 +55,8 @@ Contains all form data, such as, values, errors and form status.
 
 ```html
 <script>
+  import { Svormik } from 'svormik';
+
   let formData;
 
   $: console.log(formData); // {values: ...values, errors: ...erors, status: ...status}
@@ -128,6 +132,7 @@ A function that accepts a callback and should be invoked on submit. The callback
 
 ```html
 <script>
+  import {Svormik} from 'svormik';
 
   let handleSubmit;
 
@@ -157,6 +162,7 @@ A function that accepts an object as an argument that contains the keys of field
 
 ```html
 <script>
+  import {Svormik} from 'svormik';
 
   let handleSubmit;
 
@@ -187,6 +193,7 @@ If using custom input components, the components can subscribe to the **"formPro
 ```html
 <script>
   //MyForm.svelte
+  import { Svormik } from 'svormik';
   import CustomInput from './CustomInput.svelte';
 </script>
 

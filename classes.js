@@ -5,7 +5,7 @@ class SvormikErrors {
 class SvormikStatus {
   constructor() {
     this.dirty = false;
-    this.submitted = false;
+    this.submitting = false;
   }
 }
 

@@ -1,1 +1,1 @@
-module.exports = require('./FormWrapper.svelte');
+module.exports = { Svormik: require('./FormWrapper.svelte') };

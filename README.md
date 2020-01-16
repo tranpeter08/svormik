@@ -1,12 +1,12 @@
 # What is svormik?
 
-Svorkmik is a wrapper for svelt form components. It helps with handling form values and errors. This wrapper component was strongly influenced by [Formik](https://www.npmjs.com/package/formik) (a popular package for form state management for React applications).
+Svorkmik is a wrapper for [Svelt](https://www.npmjs.com/package/svelte) form components. It helps with handling form values and errors. This wrapper component was strongly influenced by [Formik](https://www.npmjs.com/package/formik) (a popular package for form state management for React applications).
 
 And just like Formik, Svormik can also be used with [Yup](https://www.npmjs.com/package/yup) for validating form inputs.
 
 # Usage
 
-To use svorkmik import it and wrap your form component.
+To use Svorkmik, import it and wrap your form component.
 
 ```html
 
@@ -216,6 +216,7 @@ If using custom input components, the components can subscribe to the **"formPro
 
   $: errors = $formProps.errors;
 </script>
+
 <label>
   Some Label
   <input {name} />

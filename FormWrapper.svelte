@@ -1,6 +1,7 @@
 <script>
   import {setContext, onMount} from 'svelte';
   import {writable, derived} from 'svelte/store';
+  import {SvormikErrors, SvormikStatus, SvormikValues} from './classes.js';
 
   export let initialValues = {}
     ,validate
@@ -9,13 +10,10 @@
 
   let wrapper;
 
-  const formStatus = writable({
-    submitting: false,
-    dirty: false
-  });
+  const formStatus = writable(new SvormikStatus());
 
-  const formErrors = writable({});
-  const formValues = writable(initialValues);
+  const formErrors = writable(new SvormikErrors());
+  const formValues = writable(new SvormikValues(initialValues));
 
   const formProps = derived([formStatus, formErrors, formValues], 
     ([$s, $e, $v]) => ({status: $s, errors: $e, values: $v})

@@ -11,7 +11,6 @@
   let wrapper;
 
   const formStatus = writable(new SvormikStatus());
-
   const formErrors = writable(new SvormikErrors());
   const formValues = writable(new SvormikValues(initialValues));
 
@@ -64,6 +63,15 @@
     if (!validate || !validate[name]) return;
 
     const errs = [];
+
+    if (validate.validate) {
+      try {
+        await validate.validate($formValues);
+        return null;
+      } catch (error) {
+        return error.errors;
+      };
+    }
 
     if (validate[name].validate) {
       try {

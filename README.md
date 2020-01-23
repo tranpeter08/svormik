@@ -1,14 +1,14 @@
-# What is svormik?
+# What is Svormik?
 
-Svorkmik is a wrapper for [Svelt](https://www.npmjs.com/package/svelte) form components. It helps with handling form values and errors. This wrapper component was strongly influenced by [Formik](https://www.npmjs.com/package/formik) (a popular package for form state management for React applications).
+Svormik is a wrapper for [Svelt](https://www.npmjs.com/package/svelte) form components. It helps with handling form values and errors. This wrapper component was strongly influenced by [Formik](https://www.npmjs.com/package/formik) (a popular package for form state management for React applications).
 
 And just like Formik, Svormik can also be used with [Yup](https://www.npmjs.com/package/yup) for validating form inputs.
 
 # Usage
 
-To use Svorkmik, import it and wrap your form component.
+To use Svormik, import it and wrap your form component.
 
-```html
+````html
 
 <script>
   import {Svormik} from 'svormik';
@@ -19,7 +19,6 @@ To use Svorkmik, import it and wrap your form component.
     ...inputs
   </form>
 </Svormik>
-```
 
 # Props
 
@@ -43,7 +42,7 @@ Set to an Object containing keys with the associated field name and the initial 
     <input name="password" type="password" />
   </form>
 </Svormik>
-```
+````
 
 ## `formData`
 
@@ -55,7 +54,7 @@ Contains all form data, such as, values, errors and form status.
 
 ```html
 <script>
-  import { Svormik } from 'svormik';
+  import {Svormik} from 'svormik';
 
   let formData;
 
@@ -126,9 +125,9 @@ If using custom functions and if there is an error, return a message, else retur
 
 A function that accepts a callback and should be invoked on submit. The callback will be passed `formProps` and the `setError` function as parameters.
 
-- `formProps` contains same data as [formData](#formData).
+- `formProps` contains same data as [formData](#formdata).
 
-- `setErrors` see [setErrors](#setErrors).
+- `setErrors` see [setErrors](#seterrors).
 
 ```html
 <script>
@@ -193,7 +192,7 @@ If using custom input components, the components can subscribe to the **"formPro
 ```html
 <script>
   //MyForm.svelte
-  import { Svormik } from 'svormik';
+  import {Svormik} from 'svormik';
   import CustomInput from './CustomInput.svelte';
 </script>
 
@@ -207,7 +206,7 @@ If using custom input components, the components can subscribe to the **"formPro
 ```html
 <script>
   //CustomInput.svelte
-  import { getContext } from 'svelte';
+  import {getContext} from 'svelte';
 
   export let name;
 

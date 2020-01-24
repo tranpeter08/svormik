@@ -30,18 +30,23 @@
       elem.value = initialValues[field];
 
       const errs = await errorMsgs(field, initialValues[field]);
-      setErrors({[field]: errs});
+
+      if (errs.length) setErrors({[field]: errs});
     };
   });
 
   export function handleSubmit(fn) {
     setStore(formStatus, {submitting: true});
-    fn($formProps, setErrors);
+    fn($formProps, setErrors, setStatus);
   };
 
   export function setErrors(errObj) {
     setStore(formErrors, errObj);
   };
+
+  export function setStatus(statusObj) {
+    setStore(formStatus, status);
+  }
 
   function setStore(store, fields) {
     store.update(state => ({...state, ...fields}));

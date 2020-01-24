@@ -8,7 +8,7 @@ And just like Formik, Svormik can also be used with [Yup](https://www.npmjs.com/
 
 To use Svormik, import it and wrap your form component.
 
-````html
+```html
 
 <script>
   import {Svormik} from 'svormik';
@@ -29,7 +29,7 @@ Set to an Object containing keys with the associated field name and the initial 
 
 ```html
 <script>
-  import { Svormik } from 'svormik';
+  import {Svormik} from 'svormik';
 
   const initialValues = {
     username: 'foo',
@@ -43,7 +43,7 @@ Set to an Object containing keys with the associated field name and the initial 
     <input name="password" type="password" />
   </form>
 </Svormik>
-````
+```
 
 ## `formData`
 

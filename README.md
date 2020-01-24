@@ -1,6 +1,6 @@
 # What is Svormik?
 
-Svormik is a wrapper for [Svelt](https://www.npmjs.com/package/svelte) form components. It helps with handling form values and errors. This wrapper component was strongly influenced by [Formik](https://www.npmjs.com/package/formik) (a popular package for form state management for React applications).
+Svormik is a wrapper for [Svelte](https://www.npmjs.com/package/svelte) form components. It helps with handling form values and errors. This wrapper component was strongly influenced by [Formik](https://www.npmjs.com/package/formik) (a popular package for form state management for React applications).
 
 And just like Formik, Svormik can also be used with [Yup](https://www.npmjs.com/package/yup) for validating form inputs.
 
@@ -124,11 +124,11 @@ If using custom functions and if there is an error, return a message, else retur
 
 ## `handleSubmit`
 
-A function that accepts a callback and should be invoked on submit. The callback will be passed `formProps` and the `setError` function as parameters.
+A function that accepts a callback and should be invoked on submit. The callback will be passed `formProps` and the `setError` and `setStatus` function as parameters.
 
 - `formProps` contains same data as [formData](#formdata).
-
 - `setErrors` see [setErrors](#seterrors).
+- `setStatus` see [setStatus](#setstatus).
 
 ```html
 <script>
@@ -140,7 +140,7 @@ A function that accepts a callback and should be invoked on submit. The callback
     handleSubmit(sendData);
   }
 
-  function sendData(formProps, setErrors) {
+  function sendData(formProps, setErrors, setStatus) {
     try {
       await asyncFn(formProps.values);
     } catch (errors) {
@@ -158,7 +158,7 @@ A function that accepts a callback and should be invoked on submit. The callback
 
 ## `setErrors`
 
-A function that accepts an object as an argument that contains the keys of field names and an array of error messages as the values. Updates the SvormikError store.
+A function that accepts an object as an argument that contains the keys of field names and an array of error messages as the values. Updates the **formError** store.
 
 ```html
 <script>
@@ -186,9 +186,40 @@ A function that accepts an object as an argument that contains the keys of field
 </Svormik>
 ```
 
+## `setStatus`
+
+A function that accepts an object as an argument that contains the keys of status names and status value as the value. Updates the _formStatus_ store.
+
+```html
+<script>
+  import {Svormik} from 'svormik';
+
+  let handleSubmit;
+
+  function onSubmit(e) {
+    handleSubmit(sendData);
+  }
+
+  function sendData(formProps, setErrors, setStatus) {
+    try {
+      await asyncFn(formProps.values);
+    } catch (error) {
+      setErrors({[error.location]: error.message});
+      setStatus({submitting: false});
+    }
+  }
+</script>
+
+<Svormik bind:handleSubmit>
+  <form on:submit|preventDefault="{onSubmit}">
+    ...
+  </form>
+</Svormik>
+```
+
 # Context
 
-If using custom input components, the components can subscribe to the **"formProps"** derived store for useful things such as error handling.
+If using custom input components, the components can subscribe to the **formProps** derived store for useful things such as error handling.
 
 ```html
 <script>

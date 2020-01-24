@@ -19,6 +19,7 @@ To use Svormik, import it and wrap your form component.
     ...inputs
   </form>
 </Svormik>
+```
 
 # Props
 

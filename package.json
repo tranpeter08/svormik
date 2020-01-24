@@ -15,5 +15,11 @@
   ],
   "author": "Peter Tran",
   "license": "MIT",
-  "homepage": "https://github.com/tranpeter08/svormik"
+  "homepage": "https://github.com/tranpeter08/svormik",
+  "dependencies": {
+    "svelte": "^3.17.3"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
 }

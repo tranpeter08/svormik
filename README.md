@@ -78,14 +78,19 @@ If using custom functions and if there is an error, return a message, else retur
 <script>
   import Svormik from 'svormik';
 
-  const required = value => (value === undefined ? 'Field is required' : null);
+  const required = (value, values) =>
+    value === undefined ? 'Field is required' : null;
 
-  const minLength = n => value =>
+  const minLength = n => (value, values) =>
     value.length < n ? `Needs to have at least ${n} characters` : null;
+
+  const matching = fieldName => (value, values) =>
+    value !== values[fieldName] ? `Doesn't match ${fieldName}` : null;
 
   const validate = {
     username: [required, minLength(5)],
-    passowrd: [required, minLength(10)]
+    password: [required, minLength(10)],
+    confirmPassword: [required, matching('password')]
   };
 </script>
 
@@ -188,7 +193,7 @@ A function that accepts an object as an argument that contains the keys of field
 
 ## `setStatus`
 
-A function that accepts an object as an argument that contains the keys of status names and status value as the value. Updates the _formStatus_ store.
+A function that accepts an object as an argument that contains the keys of status names and status value as the value. Updates the **formStatus** store.
 
 ```html
 <script>

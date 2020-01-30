@@ -67,8 +67,6 @@
   async function errorMsgs(name, value) {
     if (!validate || !validate[name]) return;
 
-    const errs = [];
-
     if (validate.validate) {
       try {
         await validate.validate($formValues);
@@ -86,9 +84,11 @@
         return error.errors;
       };
     };
+
+    const errs = [];
     
     for (let validator of validate[name]) {
-      const err = validator(value);
+      const err = validator(value, $formValues);
       if (err) {
         errs.push(err);
       };

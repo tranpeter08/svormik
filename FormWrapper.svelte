@@ -1,7 +1,7 @@
 <script>
   import {setContext, onMount} from 'svelte';
   import {writable, derived} from 'svelte/store';
-  import {SvormikErrors, SvormikStatus, SvormikValues} from './classes.js';
+  import {SvormikStatus} from './classes.js';
 
   export let initialValues = {}
     ,validate
@@ -11,8 +11,8 @@
   let wrapper;
 
   const formStatus = writable(new SvormikStatus());
-  const formErrors = writable(new SvormikErrors());
-  const formValues = writable(new SvormikValues(initialValues));
+  const formErrors = writable(null);
+  const formValues = writable(initialValues);
 
   const formProps = derived([formStatus, formErrors, formValues], 
     ([$s, $e, $v]) => ({status: $s, errors: $e, values: $v})
@@ -45,7 +45,11 @@
   };
 
   export function setStatus(statusObj) {
-    setStore(formStatus, status);
+    setStore(formStatus, statusObj);
+  }
+
+  export function setValues(values) {
+    setStore(formValues, values);
   }
 
   function setStore(store, fields) {
@@ -57,50 +61,108 @@
 
     if (!name) return;
 
-    setStore(formStatus, {dirty: true, submitting: false});
-    setStore(formValues, {[name]: value});
+    setStatus({dirty: true, submitting: false});
+    setValues({[name]: value});
 
     const errs = await errorMsgs(name, value);
     setErrors({[name]: errs});
   };
 
-  async function errorMsgs(name, value) {
-    if (!validate || !validate[name]) return;
+  async function validateField(name, value) {
+    if (!validate) return;
+
+    setStatus({hasError: false});
 
     if (validate.validate) {
       try {
         await validate.validate($formValues);
-        return null;
+        return;
       } catch (error) {
-        return error.errors;
+        setErrors({[name]: error.errors});
+        setStatus({hasError: false});
+        return;
       };
     }
 
-    if (validate[name].validate) {
-      try {
-        await validate[name].validate(value);
-        return null;
-      } catch (error) {
-        return error.errors;
-      };
-    };
+    if (!validate[name]) return;
 
     const errs = [];
-    
-    for (let validator of validate[name]) {
-      const err = validator(value, $formValues);
-      if (err) {
-        errs.push(err);
+    const validators = validate[name];
+
+    if (validators.validate) {
+      try {
+        await validators.validate(value);
+        return;
+      } catch (error) {
+        errs.push(...error.errors);
       };
+    } else if (Array.isArray(validators)) {
+      for (let validator of validators) {
+        const err = validator(value, $formValues);
+        if (err) {
+          errs.push(err);
+        };
+      }
+    } else {
+      throw new TypeError('Svormik validate field properties must be an Array of validators, or a Yup Schema');
+    }
+
+    if (errs.length) {
+      setErrors({[name]: errs});
+      setStatus({hasError: true});
+      return;
     };
 
-    return errs.length ? errs : null;
+    setErrors({[name]: null});
   };
+
+  // async function validateField(name, value) {
+  //   if (!validate || !validate[name]) return;
+
+  //   setStatus({hasError: false});
+
+  //   if (validate.validate) {
+  //     try {
+  //       await validate.validate($formValues);
+  //       return;
+  //     } catch (error) {
+  //       setErrors({[name]: error.errors});
+  //       setStatus({hasError: false});
+  //       return;
+  //     };
+  //   }
+
+  //   const errs = [];
+
+  //   if (validate[name].validate) {
+  //     try {
+  //       await validate[name].validate(value);
+  //       return;
+  //     } catch (error) {
+  //       errs.push(...error.errors);
+  //     };
+  //   } else {
+  //     for (let validator of validate[name]) {
+  //       const err = validator(value, $formValues);
+  //       if (err) {
+  //         errs.push(err);
+  //       };
+  //     };
+  //   }
+
+  //   if (errs.length) {
+  //     setErrors({[name]: errs});
+  //     setStatus({hasError: true});
+  //     return;
+  //   };
+
+  //   setErrors({[name]: null});
+  // };
 </script>
 
 <div
   bind:this={wrapper}
   on:change={handleChange}
 >
-  <slot></slot>
+  <slot {handleSubmit}></slot>
 </div>

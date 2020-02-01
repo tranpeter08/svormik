@@ -1,6 +1,6 @@
 {
   "name": "svormik",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A wrapper component for svelt forms that handles form values and errors.",
   "main": "index.js",
   "scripts": {

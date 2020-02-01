@@ -28,14 +28,16 @@
     for (let field in initialValues) {
       const elem = wrapper.querySelector(`form [name="${field}"]`);
       elem.value = initialValues[field];
-
-      const errs = await errorMsgs(field, initialValues[field]);
-
-      if (errs.length) setErrors({[field]: errs});
     };
   });
 
   export function handleSubmit(fn) {
+    if (!fn) throw Error('handleSubmit requires a callback function as an argument') ;
+
+    for (const field in $formValues) {
+      validateField(field, $formValues[field]);
+    };
+
     setStore(formStatus, {submitting: true});
     fn($formProps, setErrors, setStatus);
   };
@@ -63,9 +65,7 @@
 
     setStatus({dirty: true, submitting: false});
     setValues({[name]: value});
-
-    const errs = await errorMsgs(name, value);
-    setErrors({[name]: errs});
+    validateField(name, value);
   };
 
   async function validateField(name, value) {
@@ -115,49 +115,7 @@
 
     setErrors({[name]: null});
   };
-
-  // async function validateField(name, value) {
-  //   if (!validate || !validate[name]) return;
-
-  //   setStatus({hasError: false});
-
-  //   if (validate.validate) {
-  //     try {
-  //       await validate.validate($formValues);
-  //       return;
-  //     } catch (error) {
-  //       setErrors({[name]: error.errors});
-  //       setStatus({hasError: false});
-  //       return;
-  //     };
-  //   }
-
-  //   const errs = [];
-
-  //   if (validate[name].validate) {
-  //     try {
-  //       await validate[name].validate(value);
-  //       return;
-  //     } catch (error) {
-  //       errs.push(...error.errors);
-  //     };
-  //   } else {
-  //     for (let validator of validate[name]) {
-  //       const err = validator(value, $formValues);
-  //       if (err) {
-  //         errs.push(err);
-  //       };
-  //     };
-  //   }
-
-  //   if (errs.length) {
-  //     setErrors({[name]: errs});
-  //     setStatus({hasError: true});
-  //     return;
-  //   };
-
-  //   setErrors({[name]: null});
-  // };
+  
 </script>
 
 <div

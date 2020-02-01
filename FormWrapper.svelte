@@ -39,7 +39,7 @@
     };
 
     setStore(formStatus, {submitting: true});
-    fn($formProps, setErrors, setStatus);
+    fn($formProps, {setErrors, setStatus, setValues});
   };
 
   export function setErrors(errObj) {
@@ -115,7 +115,7 @@
 
     setErrors({[name]: null});
   };
-  
+
 </script>
 
 <div

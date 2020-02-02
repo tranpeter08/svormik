@@ -262,7 +262,7 @@ A function that accepts an object as an argument that contains the keys of statu
 
 # Context
 
-If using custom input components, the components can subscribe to the **formProps** derived store for useful things such as error handling.
+If using custom input components, the components can subscribe to the **formProps** derived store and have access to the **actions** methods via context.
 
 ```html
 <script>
@@ -285,10 +285,10 @@ If using custom input components, the components can subscribe to the **formProp
 
   export let name;
 
-  let formProps = getContext('formProps'); // subscribe to formProps changes
+  let {formProps, actions} = getContext('formCtx');
   let errors;
 
-  $: errors = $formProps.errors;
+  $: errors = $formProps.errors; // subscribe to errors changes
 </script>
 
 <label>

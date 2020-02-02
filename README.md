@@ -77,7 +77,7 @@ Contains methods that update the **formProps** derived store. See [Actions](#Act
 
 ## `validate`
 
-Set to an Object containing keys of the field names that need to be validated and an array of custom validation functions or a Yup schema for the value.
+Set to an Object containing keys of the field names that need to be validated and an **array** of custom validation functions, or a Yup schema for the value.
 If using custom functions and if there is an error, return a message, else return a falsey value.
 
 - `validators: (value, values) => string | null`
@@ -197,7 +197,7 @@ A function that accepts a callback and should be invoked on submit. The callback
 
 ## `setErrors`
 
-A function that accepts an object as an argument that contains the keys of field names or custom error fields. Updates the **formErrors** store.
+A function that accepts an object as an argument that contains the keys of field names or custom error fields, and either an array of error messages or a custom value for the values. Updates the **formErrors** store.
 
 - `setErrors: ({errorName: [errorMsgs] | customValue}) => void`
 

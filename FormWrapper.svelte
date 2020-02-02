@@ -21,12 +21,6 @@
 
   actions = {setErrors, setStatus, setValues};
 
-  setContext('formCtx', {formProps, actions});
-
-  $: {
-    formData = $formProps;
-  };
-
   onMount(async () => {
     for (let field in initialValues) {
       const elem = wrapper.querySelector(`form [name="${field}"]`);
@@ -119,6 +113,11 @@
     setErrors({[name]: null});
   };
 
+  setContext('formCtx', {formProps: $formProps, actions});
+
+  $: {
+    formData = $formProps;
+  };
 </script>
 
 <div

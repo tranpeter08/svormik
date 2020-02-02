@@ -13,19 +13,31 @@
 
   const formStatus = writable(new SvormikStatus());
   const formErrors = writable(null);
-  const formValues = writable(initialValues);
+  const formValues = writable({});
 
   const formProps = derived([formStatus, formErrors, formValues], 
     ([$s, $e, $v]) => ({status: $s, errors: $e, values: $v})
   );
 
   actions = {setErrors, setStatus, setValues};
+  setContext('formCtx', {formProps, actions});
+
+  $: {
+    formData = $formProps;
+  };
 
   onMount(async () => {
-    for (let field in initialValues) {
-      const elem = wrapper.querySelector(`form [name="${field}"]`);
-      elem.value = initialValues[field];
-    };
+    const inputs = wrapper.querySelectorAll(`form [name]`);
+    const values = {};
+
+    for (const input of inputs) {
+      const {name} = input;
+      const value = initialValues[name] || '';
+      input.value = value;
+      values[name] = value;
+    }
+
+    setValues(values);
   });
 
   export function handleSubmit(fn) {
@@ -58,7 +70,7 @@
   async function handleChange(e) {
     const {name, value} = e.target;
 
-    if (!name) return;
+    if (!name) throw Error('form controls require a "name" attribute');
 
     setStatus({dirty: true, submitting: false});
     setValues({[name]: value});
@@ -74,9 +86,9 @@
       try {
         await validate.validate($formValues);
         return;
-      } catch (error) {
-        setErrors({[name]: error.errors});
-        setStatus({hasError: false});
+      } catch ({path, errors}) {
+        setErrors({[path]: errors});
+        setStatus({hasError: true});
         return;
       };
     }
@@ -90,8 +102,8 @@
       try {
         await validators.validate(value);
         return;
-      } catch (error) {
-        errs.push(...error.errors);
+      } catch ({errors}) {
+        errs.push(...errors);
       };
     } else if (Array.isArray(validators)) {
       for (let validator of validators) {
@@ -111,12 +123,6 @@
     };
 
     setErrors({[name]: null});
-  };
-
-  setContext('formCtx', {formProps: $formProps, actions});
-
-  $: {
-    formData = $formProps;
   };
 </script>
 

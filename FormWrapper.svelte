@@ -18,7 +18,10 @@
     ([$s, $e, $v]) => ({status: $s, errors: $e, values: $v})
   );
 
+  const actions = {setErrors, setStatus, setValues};
+
   setContext('formProps', formProps);
+  setContext('formCtx', {formProps, actions});
 
   $: {
     formData = $formProps;
@@ -42,12 +45,12 @@
     fn($formProps, {setErrors, setStatus, setValues});
   };
 
-  export function setErrors(errObj) {
-    setStore(formErrors, errObj);
+  export function setErrors(errors) {
+    setStore(formErrors, errors);
   };
 
-  export function setStatus(statusObj) {
-    setStore(formStatus, statusObj);
+  export function setStatus(statuses) {
+    setStore(formStatus, statuses);
   }
 
   export function setValues(values) {

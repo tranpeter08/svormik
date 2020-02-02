@@ -300,7 +300,7 @@ If using custom input components, the components can subscribe to the **formProp
 <label>
   Some Label
   <input {name} />
-  {#if errors[name] && errors[name].length}
+  {#if errors && errors[name] && errors[name].length}
   <span>{errors[name][0]}</span>
   {/if}
 </label>

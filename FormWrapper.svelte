@@ -20,7 +20,6 @@
 
   const actions = {setErrors, setStatus, setValues};
 
-  setContext('formProps', formProps);
   setContext('formCtx', {formProps, actions});
 
   $: {
@@ -42,7 +41,7 @@
     };
 
     setStore(formStatus, {submitting: true});
-    fn($formProps, {setErrors, setStatus, setValues});
+    fn($formProps, actions);
   };
 
   export function setErrors(errors) {

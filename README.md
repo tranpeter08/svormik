@@ -47,7 +47,7 @@ Set to an Object containing keys with the associated field name and the initial 
 </Svormik>
 ```
 
-## `formData`
+## `formData` (bind)
 
 Contains all form data, such as: values, errors and form status.
 
@@ -70,6 +70,10 @@ Contains all form data, such as: values, errors and form status.
   </form>
 </Svormik>
 ```
+
+## `actions` (bind)
+
+Contains methods that update the **formProps** derived store. See [Actions](#Actions).
 
 ## `validate`
 
@@ -132,7 +136,7 @@ If using custom functions and if there is an error, return a message, else retur
 </Svormik>
 ```
 
-## `handleSubmit`
+## `handleSubmit` (bind)
 
 A function that accepts a callback and should be invoked on submit. The callback will be passed `formProps` and `actions` that updates the stores.
 
@@ -189,9 +193,11 @@ A function that accepts a callback and should be invoked on submit. The callback
 </Svormik>
 ```
 
+# Actions
+
 ## `setErrors`
 
-A function that accepts an object as an argument that contains the keys of field names or custom error fields. Updates the **formError** store.
+A function that accepts an object as an argument that contains the keys of field names or custom error fields. Updates the **formErrors** store.
 
 - `setErrors: ({errorName: [errorMsgs] | customValue}) => void`
 
@@ -225,7 +231,7 @@ A function that accepts an object as an argument that contains the keys of field
 
 A function that accepts an object as an argument that contains the keys of status names and status value as the value. Updates the **formStatus** store.
 
-`setStatus: ({statusName: value}) => void`
+- `setStatus: ({statusName: value}) => void`
 
 ```html
 <script>
@@ -258,7 +264,7 @@ A function that accepts an object as an argument that contains the keys of statu
 
 A function that accepts an object as an argument that contains the keys of status names and status value as the value. Updates the **formValues** store.
 
-`setValues: ({fieldName: value}) => void`
+- `setValues: ({fieldName: value}) => void`
 
 # Context
 
@@ -299,3 +305,11 @@ If using custom input components, the components can subscribe to the **formProp
   {/if}
 </label>
 ```
+
+# `let:`
+
+The following are available to the **let** directive:
+
+- `handleSubmit`
+- `formProps`
+- `actions`

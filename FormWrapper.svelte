@@ -6,6 +6,7 @@
   export let initialValues = {}
     ,validate
     ,formData
+    ,actions
     ;
 
   let wrapper;
@@ -18,7 +19,7 @@
     ([$s, $e, $v]) => ({status: $s, errors: $e, values: $v})
   );
 
-  const actions = {setErrors, setStatus, setValues};
+  actions = {setErrors, setStatus, setValues};
 
   setContext('formCtx', {formProps, actions});
 
@@ -124,5 +125,9 @@
   bind:this={wrapper}
   on:change={handleChange}
 >
-  <slot {handleSubmit}></slot>
+  <slot 
+    {handleSubmit} 
+    formProps={$formProps}>
+    {actions}
+  </slot>
 </div>
